@@ -2,6 +2,8 @@
 
 A real estate platform built with React, TypeScript, and Express. The project is a deliberately self-contained challenge target so QA Engineers can practise **both web UI and HTTP API** automation against the same application.
 
+> 📋 **Taking the QA challenge?** The full brief — scope, time-box, deliverables, and submission steps — lives in **[CHALLENGE.md](./CHALLENGE.md)**. Read it first; this README only covers running the app and the API.
+
 <img src='./images/real-estate-platform.png' alt='Real Estate Platform' />
 
 ## 🚀 Getting Started
