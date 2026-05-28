@@ -14,8 +14,8 @@ A real estate platform built with React, TypeScript, and Express. The project is
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Aviv-public/aviv-qa-technical-test.git
-cd aviv-qa-technical-test
+git clone https://github.com/Aviv-public/aviv-immowelt-qa-technical-assessment.git
+cd aviv-immowelt-qa-technical-assessment
 ```
 
 2. Install dependencies
@@ -101,107 +101,6 @@ This rewrites `server/data/db.json` from the seed. The route returns 404 when `N
 | `SEED_PASSWORD` | `Test123!` | Password hashed into seeded accounts |
 | `WEB_ORIGIN` | `http://localhost:5173` | CORS allowlist |
 | `NODE_ENV` | `development` | `production` disables `/api/test/reset` |
-
-## ✅ Built-in unit tests
-
-The repo ships with **60 unit tests** covering the API's pure functions and shared validation — they serve as both a smoke check and an executable spec for candidates.
-
-```bash
-npm test          # one-shot
-npm run test:watch
-```
-
-What's covered:
-
-| File | Subject |
-|---|---|
-| `server/src/services/properties.service.test.ts` | Property filtering + sorting (type, status, price range, bedrooms, location, free-text `q`, all sort modes, AND-composition, no mutation) |
-| `server/src/services/auth.service.test.ts` | bcrypt hash/compare (incl. salt non-determinism), JWT sign/verify, `toPublicUser` strips `passwordHash` |
-| `server/src/schemas.test.ts` | Zod request schemas: login, register (password complexity table), property create + numeric coercion, query coercion, update-me cross-field rule, contact form |
-| `src/utils/format.test.ts` | `formatCurrency` (EUR, no decimals, zero, negative) |
-| `src/utils/validation.test.ts` | Frontend `loginSchema` / `registerSchema` (confirmPassword refinement, password complexity, role enum) |
-
-These are **not** the candidate's deliverable — they protect the system-under-test from regressions. Candidates write their own e2e / API automation on top.
-
-## 🧪 Submitting Tests
-
-QA Engineers, responsible for ensuring the quality and functionality of the API, should follow test automation best practices including:
-
-#### Page Object Pattern
-- Implement Page Object Model (POM) to create an object repository for web UI elements
-- Each page should have its corresponding page class
-- Maintain separation between test methods and page specific code
-- Group related elements and actions within relevant page objects
-
-#### Data-Driven Testing
-- Externalize test data in JSON/YAML files
-- Parameterize tests to run with multiple data sets
-- Maintain test data separate from test logic
-- Include both positive and negative test scenarios
-
-#### Test scenarios that need to be implemented
-- Implement test cases for user registration, login, and logout
-- Test user roles and permissions (Admin, Agent, User)
-- Verify user profile management functionality
-- Test property listing and search functionality
-- Validate property details and booking process
-- Verify user notifications and alerts
-
-
-#### Coverage Requirements
-- Minimum 80% test coverage for critical paths
-- Test all user roles (Admin, Agent, User)
-
-#### Technical Stack
-- Test Automation Frameworks:
-    - Choose one of the following:
-        - Selenium WebDriver (Java/Python/JavaScript)
-        - WebDriver.IO (JavaScript/TypeScript)
-        - Cypress (JavaScript/TypeScript)
-        - Playwright (JavaScript/TypeScript)
-- Continuous Integration:
-    - GitHub Actions for automated test execution
-    - Parallel test execution
-    - Scheduled test runs
-- Test Reporting:
-    - Allure Reports integration
-    - Detailed test execution results
-    - Screenshots and video captures
-
-### Contribution Steps
-1. **Fork the repository:**
-    Go to the repository on GitHub and click the "Fork" button to create a copy of the repository in your own GitHub account.
-
-2. **Clone your forked repository:**
-    ```bash
-    git clone https://github.com/username/aviv-qa-technical-test.git
-    cd aviv-qa-technical-test
-    ```
-
-3. **Create a new branch:**
-    ```bash
-    git checkout -b test-branch-name
-    ```
-
-4. **Add your test cases:**
-    Add your test cases in the `tests` directory.
-
-5. **Commit your changes:**
-    ```bash
-    git add .
-    git commit -m "Add test cases"
-    ```
-
-6. **Create a GitHub Actions workflow:**
-    In the root of your repository, create a directory named `.github/workflows` if it doesn't already exist. Inside this directory, create a file named `ci.yml`.
-
-7. **Push your branch:**
-    ```bash
-    git push origin test-branch-name
-    ```
-
-8. **Create a pull request:**
-    Go to the repository on GitHub and create a pull request to merge your test branch into the main branch.
 
 ## 📄 License
 
