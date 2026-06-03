@@ -6,7 +6,7 @@ Welcome — thanks for taking the time. This document is the only spec you need.
 
 Build a small, well-designed automated test suite against the included Real Estate Platform. We care about **test design quality, not coverage volume**.
 
-- ⏱  **Time-box: 4 hours.** Stop at 4 hours even if you're not "done." Tell us where you stopped and what you'd do next.
+- ⏱  **Task assessment** to be sent to the candidate to be submitted back in 1-3 working days.
 - 🎯  **Scope: 3 user stories** (listed below). Do them well rather than doing more shallowly.
 - 🧰  **Stack: your choice** — Playwright, Cypress, WebDriver.IO, Selenium, supertest, etc. Use what you're fastest in.
 - 📬  **Deliver: a pull request** against your fork. Include a short README explaining what you did, what you skipped, and why.
