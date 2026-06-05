@@ -89,12 +89,9 @@ public class RealEstatePage : PageTest
 
     public async Task WishlistFirstFeaturedAsync()
     {
-        await _page.GetByRole(AriaRole.Button).Nth(2).ClickAsync();        
-    }
 
-    public async Task AssertPropertyIsWishlistedAsync(int count)
-    {
-        //Navigate to /Dashboard and assert the property count is in the wishlist
+        var featuredPropertiesLocator = _page.Locator("//*[@id=\"root\"]/div/main/div/div[3]/div/div");
+        await featuredPropertiesLocator.Nth(0).GetByRole(AriaRole.Button).Nth(0).ClickAsync();
     }
 
     public async Task AssertPropertyIsNotWishlistedAsync()

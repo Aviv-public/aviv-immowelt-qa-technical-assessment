@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using DemoTests.Config;
+using System.Text.Json.Nodes;
 
 namespace DemoTests.Fixtures;
 
@@ -7,6 +8,8 @@ public class PlaywrightFixture : IAsyncLifetime
 {
     public IPlaywright Playwright { get; private set; } = null!;
     public TestSettings Settings { get; private set; } = null!;
+
+    public IAPIRequestContext ApiRequestContext { get; private set; } = null!;
 
     private readonly Dictionary<string, IBrowser> _browsers = new();
 
@@ -17,7 +20,20 @@ public class PlaywrightFixture : IAsyncLifetime
         Settings = TestSettings.Load();
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
-        // TODO: Clean up the APP using API endpoint /api/test/reset
+        ApiRequestContext = await Playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
+        {
+            BaseURL = Settings.APIBaseUrl,
+            ExtraHTTPHeaders = new Dictionary<string, string>
+            {
+                ["Accept"] = "application/json",
+                ["Content-Type"] = "application/json"
+            }
+        });
+
+        //Clean up the APP using API endpoint /api/test/reset
+        var response = await ApiRequestContext.PostAsync("/api/test/reset");
+        JsonObject jsonResponse = await response.JsonAsync<JsonObject>();
+        Assert.True(jsonResponse["message"].ToString() == "Database reset to seed", "[1] = message = \"Database reset to seed\"");
 
     }
 
