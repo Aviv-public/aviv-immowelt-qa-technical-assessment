@@ -29,8 +29,6 @@
     <Folder Include="Config\" />
     <Folder Include="Base\" />
     <Folder Include="Fixtures\" />
-    <Folder Include="Tests\" />
-    <Folder Include="Pages\" />
   </ItemGroup>
 
   <ItemGroup>
