@@ -52,3 +52,8 @@ CLAUDE.md
 .continue/
 .windsurfrules
 .github/copilot-instructions.md
+
+#Visual Studio
+bin/
+obj/
+.vs/
