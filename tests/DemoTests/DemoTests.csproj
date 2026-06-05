@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Auth\" />
     <Folder Include="Config\" />
-    <Folder Include="Base\" />
     <Folder Include="Fixtures\" />
   </ItemGroup>
 

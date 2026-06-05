@@ -20,21 +20,37 @@ public class PlaywrightFixture : IAsyncLifetime
         Settings = TestSettings.Load();
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
-        ApiRequestContext = await Playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
-        {
-            BaseURL = Settings.APIBaseUrl,
-            ExtraHTTPHeaders = new Dictionary<string, string>
-            {
-                ["Accept"] = "application/json",
-                ["Content-Type"] = "application/json"
-            }
-        });
+        ApiRequestContext = await InitializeAPIRequestContextAsync(null);
 
         //Clean up the APP using API endpoint /api/test/reset
         var response = await ApiRequestContext.PostAsync("/api/test/reset");
-        JsonObject jsonResponse = await response.JsonAsync<JsonObject>();
-        Assert.True(jsonResponse["message"].ToString() == "Database reset to seed", "[1] = message = \"Database reset to seed\"");
+        var jsonResponse = await response.JsonAsync();
+        Assert.True(jsonResponse?.GetProperty("message").GetString() == "Database reset to seed", "[1] = message = \"Database reset to seed\"");
 
+    }
+    public async Task<IAPIRequestContext> InitializeAPIRequestContextAsync(string? bearerToken)
+    {
+        if(ApiRequestContext != null)
+        {
+            await ApiRequestContext.DisposeAsync();
+        }
+        var extraHTTPHeaders = new Dictionary<string, string>
+        {
+            { "Accept", "application/json" },
+            { "Content-Type", "application/json" }
+        };
+
+        if(bearerToken != null) {
+            extraHTTPHeaders.Add("Authorization", $"Bearer {bearerToken}");
+        }
+
+        ApiRequestContext = await Playwright.APIRequest.NewContextAsync(new APIRequestNewContextOptions
+        {
+            BaseURL = Settings.APIBaseUrl,
+            ExtraHTTPHeaders = extraHTTPHeaders
+        });
+
+        return ApiRequestContext;
     }
 
     private void CleanupArtifacts()
