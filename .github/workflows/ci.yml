@@ -36,7 +36,9 @@ jobs:
     # Start App and wait natively for Port 5173
     - name: Start App & Wait for Port 5173
       run: |
-        npm run dev
+        npm run dev -- --host 127.0.0.1 < /dev/null > vite-server.log 2>&1 &
+        # Small sleep just to give the OS a second to spin up the process
+        sleep 3
 
     # Check connectivity
     - name: Diagnose and Check Web App Load
