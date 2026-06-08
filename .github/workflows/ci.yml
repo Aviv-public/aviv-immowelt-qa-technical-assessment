@@ -36,7 +36,7 @@ jobs:
     # Start App and wait natively for Port 5173
     - name: Start App & Wait for Port 5173
       run: |
-        npm run dev &
+        npm run dev -- --host 127.0.0.1 < /dev/null &
         npx wait-on tcp:127.0.0.1:5173 --timeout 60000
 
     # Setup .NET 10 SDK environment
