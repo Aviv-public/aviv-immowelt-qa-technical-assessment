@@ -36,8 +36,25 @@ jobs:
     # Start App and wait natively for Port 5173
     - name: Start App & Wait for Port 5173
       run: |
-        npm run dev -- --host 127.0.0.1 < /dev/null &
-        npx wait-on tcp:127.0.0.1:5173 --timeout 60000
+        npm run dev
+
+    # Check connectivity
+    - name: Diagnose and Check Web App Load
+      run: |       
+        echo "=== Testing Network Connectivity via Curl ==="
+        # Retry curl up to 6 times (every 5 seconds) to give Vite time to bundle assets
+        for i in {1..6}; do
+          echo "Attempt $i: Checking http://127.0.0.1:5173..."
+          if curl -Is http://127.0.0.1:5173 | head -n 1; then
+            echo "Successfully connected to Web App!"
+            exit 0
+          fi
+          sleep 5
+        done
+        
+        echo "ERROR: Web application failed to load. Printing full network details:"
+        netstat -tuln || ss -tuln
+        exit 1
 
     # Setup .NET 10 SDK environment
     - name: Setup .NET 10
