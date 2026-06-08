@@ -15,22 +15,38 @@ Some of the key features are:
 Use the provided ci.yml on github actions or run the following steps:
 - Clone the repository
 - Install dotnet if needed
-    - curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
-    - chmod +x ./dotnet-install.sh
-    - ./dotnet-install.sh --version latest
+    - ```bash
+      curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
+      ```
+    - ```bash
+      chmod +x ./dotnet-install.sh
+      ```
+    - ```bash
+      ./dotnet-install.sh --version latest
+      ```
 - Start the application from the root folder
-    - npm install
-    - npm run dev
+    - ```bash
+      npm install
+      ```
+    - ```bash
+      npm run dev
+      ```
 - Navigate to the project directory and run the tests using the following command:
-    - dotnet restore
-    - .\bin\Debug\net10.0\playwright.ps1 install
-    - dotnet test --logger trx -- xunit.parallelizeAssembly=true xunit.maxParallelThreads=2
+    - ```bash
+      dotnet restore
+      ```      
+    - ```bash
+      .\bin\Debug\net10.0\playwright.ps1 install
+      ```
+    - ```bash
+      dotnet test --logger trx -- xunit.parallelizeAssembly=true xunit.maxParallelThreads=2
+      ```
 
 ### Expected results
 Keep note that some tests will fail due possible bugs in the product tested. 
 It is expected that the follwing tests will fail:
-- Visitor_Can_Filter_Properties_By... : Those tests will fail because after filtering the filter results counter is not updated and still shows 6 results instead of the expected ones
-- User_Registration_Fail_InvalidPhone : This test will fail is a string is passed containing no numbers. It is expected to fail (not a valid phone number) but the app returns success (200)
+- ``` Visitor_Can_Filter_Properties_By... ``` : Those tests will fail because after filtering the filter results counter is not updated and still shows 6 results instead of the expected ones
+- ``` User_Registration_Fail_InvalidPhone ``` : This test will fail is a string is passed containing no numbers. It is expected to fail (not a valid phone number) but the app returns success (200)
 
 ## What was skipped
 Due to time constraints, I had to skip some optimizations for the API testing architecture and tests. There is room for improvement, especially in handling common data and some code duplication.
