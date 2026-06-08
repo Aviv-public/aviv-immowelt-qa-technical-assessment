@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace DemoTests.Config;
@@ -20,9 +21,10 @@ public class TestSettings
 
     public static TestSettings Load()
     {
+        var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("Config/appsettings.Test.json", optional: false, reloadOnChange: false)
+            .AddJsonFile("Config/appsettings.test.json", optional: false, reloadOnChange: false)
             .AddEnvironmentVariables()
             .Build();
 
