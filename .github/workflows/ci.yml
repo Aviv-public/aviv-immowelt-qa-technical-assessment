@@ -1,0 +1,72 @@
+name: Playwright End-to-End Tests
+
+on:
+  push:
+    branches:
+      - 'vidonism/tests'
+  pull_request:
+    branches:
+      - 'vidonism/tests'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Fetch repository source code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Setup Node.js environment for the React App
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # 3. Install React frontend dependencies
+    - name: Install Node Dependencies
+      run: npm install
+
+    # 4. Start React application in the background and wait for readiness
+    - name: Start React App & Wait for Port 5173
+      uses: jakejarvis/wait-for-port-action@v1.4.0
+      with:
+        define: |
+          npm run dev &
+        port: 5173
+        timeout: 60000
+
+    # 5. Setup .NET 10 SDK environment
+    - name: Setup .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    # 6. Build the test project to restore tools and dependencies
+    - name: Build Test Project
+      run: dotnet build tests/DemoTests/DemoTests.csproj
+
+    # 7. Install Playwright browser binaries required by .NET
+    - name: Install Playwright Browsers
+      run: |
+        dotnet tool install --global Microsoft.Playwright.CLI || true
+        playwright install --with-deps
+
+    # 8. Execute xUnit tests and output results into a TRX file
+    - name: Run Playwright Tests
+      run: |
+        dotnet test tests/DemoTests/DemoTests.csproj --logger "trx;LogFileName=test-results.trx" --results-directory ./TestResults
+      env:
+        # Pass the URLs
+        TestBaseUrl: http://localhost:5173
+        APIBaseUrl: http://localhost:3001/api
+
+    # 9. Upload test reports as a GitHub artifact (always runs even if tests fail)
+    - name: Upload Test Report Artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-test-results
+        path: ./TestResults/
+        retention-days: 30

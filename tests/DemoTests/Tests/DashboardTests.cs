@@ -1,6 +1,7 @@
 ﻿using DemoTests.Base;
 using DemoTests.Fixtures;
 using DemoTests.Pages;
+using Microsoft.Playwright;
 
 namespace DemoTests.Tests;
 
@@ -15,6 +16,9 @@ public class DashboardTests : BaseTest
     {
         await RunAsync(browser, async () =>
         {
+            //Reset the contents before the test
+            await Fixture.ApiRequestContext.PostAsync("/api/test/reset");
+
             var dashboardPage = new DashboardPage(Page, Fixture.Settings);
 
             await dashboardPage.NavigateAsync();

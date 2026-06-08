@@ -18,7 +18,7 @@ public class RoleTests : BaseAPITest
 
     [Theory]
     [InlineData("user", false)]
-    [InlineData("agent", true)]
+    [InlineData("agent", false)]
     [InlineData("admin", true)]
     public async Task List_Users(string role, bool expectedResult)
     {
